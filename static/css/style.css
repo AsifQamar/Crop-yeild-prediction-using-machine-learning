@@ -1,0 +1,344 @@
+/* ─────────────────────────────────────────────────────
+   Crop Yield Prediction – Styles
+   Color Palette: Light Green (#6BAF6B) + Cream (#FFF8E7)
+   ───────────────────────────────────────────────────── */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FFF8E7;
+    color: #2D3A2D;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Background */
+.bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Header */
+header {
+    background-color: #4A8C4A;
+    color: #FFF8E7;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 54px;
+}
+
+.header-content h1 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+
+/* Navigation Tabs — inline with header */
+.tabs {
+    display: flex;
+    gap: 4px;
+}
+
+.tab {
+    padding: 8px 18px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 248, 231, 0.7);
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.tab:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #FFF8E7;
+}
+
+.tab.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #FFF8E7;
+    font-weight: 600;
+}
+
+/* Main */
+main {
+    max-width: 960px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Cards */
+.card {
+    background-color: #FFFFFF;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 28px;
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.card-subtitle {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+/* Tab content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Form */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #4A8C4A;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 14px;
+    border: 1px solid #C8DFC8;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #2D3A2D;
+    background-color: #FAFFF5;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #4A8C4A;
+}
+
+.form-group input::placeholder {
+    color: #aaa;
+}
+
+/* Predict button */
+.btn-predict {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background-color: #4A8C4A;
+    color: #FFF8E7;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-predict:hover {
+    background-color: #3B7A3B;
+}
+
+.btn-predict:disabled {
+    background-color: #A0C8A0;
+    cursor: not-allowed;
+}
+
+/* Result box */
+.result-box {
+    margin-top: 20px;
+    padding: 24px;
+    background-color: #F5FAF0;
+    border: 1px solid #C8DFC8;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.result-box h3 {
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.result-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #2E7D32;
+}
+
+.result-model {
+    font-size: 13px;
+    color: #777;
+    margin-top: 8px;
+}
+
+/* Error box */
+.error-box {
+    margin-top: 24px;
+    padding: 16px;
+    background-color: #FFF0F0;
+    border: 1px solid #E0A0A0;
+    border-radius: 8px;
+    text-align: center;
+    color: #A04040;
+    font-size: 14px;
+}
+
+/* Comparison table */
+#comparison-table-container {
+    overflow-x: auto;
+    margin-bottom: 24px;
+}
+
+#comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+#comparison-table th {
+    background-color: #4A8C4A;
+    color: #FFF8E7;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 500;
+}
+
+#comparison-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #E8F0E8;
+}
+
+#comparison-table tr:hover {
+    background-color: #F5FBF5;
+}
+
+.badge-best {
+    display: inline-block;
+    padding: 3px 12px;
+    background-color: #2E7D32;
+    color: white;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.badge-other {
+    display: inline-block;
+    padding: 3px 12px;
+    background-color: #E0E0E0;
+    color: #666;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Chart container */
+.chart-container {
+    text-align: center;
+}
+
+.chart-container img {
+    max-width: 100%;
+    border-radius: 8px;
+    border: 1px solid #E0E8E0;
+}
+
+/* EDA grid */
+.eda-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.eda-item {
+    text-align: center;
+}
+
+.eda-item img {
+    max-width: 100%;
+    border-radius: 8px;
+    border: 1px solid #E0E8E0;
+}
+
+.eda-item p {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #555;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    header {
+        flex-direction: column;
+        height: auto;
+        padding: 14px 16px;
+        gap: 10px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabs {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .tab {
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+}
+

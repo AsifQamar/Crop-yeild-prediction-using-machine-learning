@@ -1,0 +1,18 @@
+{
+  "XGBoost": {
+    "R2_Score": 0.8533,
+    "RMSE": 4.5914,
+    "MAE": 1.3242
+  },
+  "Random Forest": {
+    "R2_Score": 0.8282,
+    "RMSE": 4.9683,
+    "MAE": 1.3646
+  },
+  "KNN": {
+    "R2_Score": 0.4586,
+    "RMSE": 8.8201,
+    "MAE": 3.4515
+  },
+  "best_model": "XGBoost"
+}

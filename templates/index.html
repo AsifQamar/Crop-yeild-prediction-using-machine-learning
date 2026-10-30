@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Yield Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Background overlay -->
+    <div class="bg-overlay"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>🌾 Crop Yield Predictor</h1>
+        </div>
+        <nav class="tabs">
+            <button class="tab active" data-tab="predict">Predict</button>
+            <button class="tab" data-tab="comparison">Models</button>
+            <button class="tab" data-tab="eda">Analysis</button>
+        </nav>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        <!-- PREDICT TAB -->
+        <section id="predict" class="tab-content active">
+            <div class="card form-card">
+                <h2>Enter Crop Details</h2>
+                <form id="predict-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="crop">Crop</label>
+                            <select id="crop" name="crop" required>
+                                <option value="">Select Crop</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <select id="state" name="state" required>
+                                <option value="">Select State</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="season">Season</label>
+                            <select id="season" name="season" required>
+                                <option value="">Select Season</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="crop_year">Crop Year</label>
+                            <input type="number" id="crop_year" name="crop_year" min="1997" max="2030" placeholder="e.g. 2020" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="area">Area (hectares)</label>
+                            <input type="number" id="area" name="area" step="any" min="0" placeholder="e.g. 5000" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="annual_rainfall">Annual Rainfall (mm)</label>
+                            <input type="number" id="annual_rainfall" name="annual_rainfall" step="any" min="0" placeholder="e.g. 1200" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fertilizer">Fertilizer (kg)</label>
+                            <input type="number" id="fertilizer" name="fertilizer" step="any" min="0" placeholder="e.g. 50000" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pesticide">Pesticide (kg)</label>
+                            <input type="number" id="pesticide" name="pesticide" step="any" min="0" placeholder="e.g. 2000" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="avg_temperature">Avg Temperature (°C)</label>
+                            <input type="number" id="avg_temperature" name="avg_temperature" step="any" placeholder="e.g. 25" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="max_temperature">Max Temperature (°C)</label>
+                            <input type="number" id="max_temperature" name="max_temperature" step="any" placeholder="e.g. 35" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="min_temperature">Min Temperature (°C)</label>
+                            <input type="number" id="min_temperature" name="min_temperature" step="any" placeholder="e.g. 15" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-predict" id="btn-predict">
+                        <span class="btn-text">🌱 Predict Yield</span>
+                        <span class="btn-loader" style="display:none;">Predicting...</span>
+                    </button>
+                </form>
+
+                <!-- Result display -->
+                <div id="result-box" class="result-box" style="display:none;">
+                    <h3>Predicted Yield</h3>
+                    <p class="result-value"><span id="result-value"></span> <span class="result-unit">tonnes / hectare</span></p>
+                </div>
+
+                <!-- Error display -->
+                <div id="error-box" class="error-box" style="display:none;">
+                    <p id="error-msg"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODEL COMPARISON TAB -->
+        <section id="comparison" class="tab-content">
+            <div class="card">
+                <h2>Model Performance Comparison</h2>
+                <p class="card-subtitle">The best performing model is automatically selected for predictions.</p>
+                <div id="comparison-table-container">
+                    <table id="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>R² Score</th>
+                                <th>RMSE</th>
+                                <th>MAE</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparison-body"></tbody>
+                    </table>
+                </div>
+                <div class="chart-container">
+                    <img id="comparison-chart" src="/eda_plots/model_comparison.png" alt="Model Comparison Chart">
+                </div>
+            </div>
+        </section>
+
+        <!-- EDA TAB -->
+        <section id="eda" class="tab-content">
+            <div class="card">
+                <h2>Exploratory Data Analysis</h2>
+                <p class="card-subtitle">Visual insights from the crop yield dataset.</p>
+                <div class="eda-grid" id="eda-grid"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
+
