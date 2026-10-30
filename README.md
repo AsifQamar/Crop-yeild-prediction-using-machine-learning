@@ -142,30 +142,30 @@ After training all three models, the system compares them on R² Score, RMSE, an
 ### 3.5 Proposed Solution and System Workflow
 
 ```
-┌──────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│   Raw CSV    │────▶│  Data Cleaning   │────▶│  Label Encoding  │
-│   Dataset    │     │  & Preprocessing │     │  & Scaling       │
-└──────────────┘     └──────────────────┘     └──────────────────┘
-                                                       │
-                                                       ▼
-                                              ┌──────────────────┐
-                                              │   Train 3 Models │
-                                              │  XGBoost / RF /  │
-                                              │       KNN        │
-                                              └──────────────────┘
-                                                       │
-                                                       ▼
-                                              ┌──────────────────┐
-                                              │ Compare Metrics  │
-                                              │  R², RMSE, MAE   │
-                                              │ Select Best Model│
-                                              └──────────────────┘
-                                                       │
-                                                       ▼
-┌──────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│  User enters │────▶│  Flask Backend   │────▶│  Return Yield    │
-│  crop params │     │  (predict API)   │     │  (tonnes/hectare)│
-└──────────────┘     └──────────────────┘     └──────────────────┘
++--------------+     +------------------+     +------------------+
+|   Raw CSV    |---->|  Data Cleaning   |---->|  Label Encoding  |
+|   Dataset    |     |  & Preprocessing |     |  & Scaling       |
++--------------+     +------------------+     +------------------+
+                                                       |
+                                                       v
+                                              +------------------+
+                                              |   Train 3 Models |
+                                              |  XGBoost / RF /  |
+                                              |       KNN        |
+                                              +------------------+
+                                                       |
+                                                       v
+                                              +------------------+
+                                              | Compare Metrics  |
+                                              |  R2, RMSE, MAE   |
+                                              | Select Best Model|
+                                              +------------------+
+                                                       |
+                                                       v
++--------------+     +------------------+     +------------------+
+|  User enters |---->|  Flask Backend   |---->|  Return Yield    |
+|  crop params |     |  (predict API)   |     |  (tonnes/hectare)|
++--------------+     +------------------+     +------------------+
 ```
 
 ---
@@ -191,36 +191,36 @@ The project consists of the following files:
 
 ```
 Crop_yeild_prediction/
-├── Crop Yeild Data.csv          # Raw dataset
-├── train_model.py               # Full ML pipeline (clean → EDA → train → compare → save)
-├── app.py                       # Flask web server
-├── templates/
-│   └── index.html               # Frontend HTML
-├── static/
-│   ├── css/style.css            # Styling (light green + cream theme)
-│   └── js/app.js                # Client-side logic
-├── models/
-│   ├── best_model.pkl           # Saved best model (XGBoost)
-│   ├── best_model_name.pkl      # Name of the best model
-│   ├── scaler.pkl               # Fitted StandardScaler
-│   ├── label_encoders.pkl       # Fitted LabelEncoders
-│   ├── feature_cols.pkl         # Ordered feature column names
-│   ├── model_comparison.json    # Metrics for all 3 models
-│   └── dropdown_data.json       # Crop/Season/State lists for UI
-└── eda_plots/
-    ├── yield_distribution.png
-    ├── top_crops_yield.png
-    ├── season_yield.png
-    ├── state_yield.png
-    ├── correlation_heatmap.png
-    ├── yield_vs_features.png
-    ├── yearly_trend.png
-    └── model_comparison.png
+|-- Crop Yeild Data.csv          # Raw dataset
+|-- train_model.py               # Full ML pipeline (clean -> EDA -> train -> compare -> save)
+|-- app.py                       # Flask web server
+|-- templates/
+|   `-- index.html               # Frontend HTML
+|-- static/
+|   |-- css/style.css            # Styling (light green + cream theme)
+|   `-- js/app.js                # Client-side logic
+|-- models/
+|   |-- best_model.pkl           # Saved best model (XGBoost)
+|   |-- best_model_name.pkl      # Name of the best model
+|   |-- scaler.pkl               # Fitted StandardScaler
+|   |-- label_encoders.pkl       # Fitted LabelEncoders
+|   |-- feature_cols.pkl         # Ordered feature column names
+|   |-- model_comparison.json    # Metrics for all 3 models
+|   `-- dropdown_data.json       # Crop/Season/State lists for UI
+`-- eda_plots/
+    |-- yield_distribution.png
+    |-- top_crops_yield.png
+    |-- season_yield.png
+    |-- state_yield.png
+    |-- correlation_heatmap.png
+    |-- yield_vs_features.png
+    |-- yearly_trend.png
+    `-- model_comparison.png
 ```
 
 **Key implementation details:**
 
-- `train_model.py` runs the entire pipeline end-to-end: load → clean → EDA plots → encode → scale → split → train 3 models → compare → save best.
+- `train_model.py` runs the entire pipeline end-to-end: load -> clean -> EDA plots -> encode -> scale -> split -> train 3 models -> compare -> save best.
 - `app.py` loads the saved model and artifacts at startup. It exposes REST APIs (`/api/predict`, `/api/dropdown-data`, `/api/model-info`, `/api/eda-plots`) and serves the frontend.
 - The frontend has three tabs: **Predict** (input form), **Models** (comparison table and chart), and **Analysis** (EDA visualizations).
 

@@ -1,6 +1,6 @@
-/* ─────────────────────────────────────────────────────
-   Crop Yield Prediction – Frontend Logic
-   ───────────────────────────────────────────────────── */
+/* -----------------------------------------------------
+   Crop Yield Prediction - Frontend Logic
+   ----------------------------------------------------- */
 
 document.addEventListener('DOMContentLoaded', () => {
     initTabs();
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadEDAPlots();
 });
 
-// ─── Tab Navigation ──────────────────────────────────
+// --- Tab Navigation ----------------------------------
 
 function initTabs() {
     const tabs = document.querySelectorAll('.tab');
@@ -26,7 +26,7 @@ function initTabs() {
     });
 }
 
-// ─── Populate Dropdowns ──────────────────────────────
+// --- Populate Dropdowns ------------------------------
 
 async function loadDropdownData() {
     try {
@@ -51,7 +51,7 @@ function populateSelect(id, items) {
     });
 }
 
-// ─── Prediction Form ─────────────────────────────────
+// --- Prediction Form ---------------------------------
 
 document.getElementById('predict-form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -112,7 +112,7 @@ document.getElementById('predict-form').addEventListener('submit', async (e) => 
     }
 });
 
-// ─── Model Comparison Table ──────────────────────────
+// --- Model Comparison Table --------------------------
 
 async function loadModelComparison() {
     try {
@@ -136,8 +136,8 @@ async function loadModelComparison() {
                 <td>${m.RMSE}</td>
                 <td>${m.MAE}</td>
                 <td>${isBest
-                    ? '<span class="badge-best">✓ Best</span>'
-                    : '<span class="badge-other">—</span>'
+                    ? '<span class="badge-best">Best</span>'
+                    : '<span class="badge-other">-</span>'
                 }</td>
             `;
             tbody.appendChild(row);
@@ -147,7 +147,7 @@ async function loadModelComparison() {
     }
 }
 
-// ─── EDA Plots ───────────────────────────────────────
+// --- EDA Plots ---------------------------------------
 
 const PLOT_TITLES = {
     'yield_distribution.png': 'Distribution of Crop Yield',
@@ -192,4 +192,3 @@ async function loadEDAPlots() {
         console.error('Failed to load EDA plots:', err);
     }
 }
-

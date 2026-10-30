@@ -1,7 +1,7 @@
-/* ─────────────────────────────────────────────────────
-   Crop Yield Prediction – Styles
+/* -----------------------------------------------------
+   Crop Yield Prediction - Styles
    Color Palette: Light Green (#6BAF6B) + Cream (#FFF8E7)
-   ───────────────────────────────────────────────────── */
+   ----------------------------------------------------- */
 
 * {
     margin: 0;
@@ -52,7 +52,7 @@ header {
     white-space: nowrap;
 }
 
-/* Navigation Tabs — inline with header */
+/* Navigation Tabs - inline with header */
 .tabs {
     display: flex;
     gap: 4px;

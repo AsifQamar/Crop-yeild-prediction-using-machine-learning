@@ -33,9 +33,9 @@ MODEL_DIR = os.path.join(BASE_DIR, 'models')
 os.makedirs(EDA_DIR, exist_ok=True)
 os.makedirs(MODEL_DIR, exist_ok=True)
 
-# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ------------------------------------------------------------
 # 1. LOAD & CLEAN DATA
-# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ------------------------------------------------------------
 print("=" * 60)
 print("STEP 1: Loading & Cleaning Data")
 print("=" * 60)
@@ -44,43 +44,43 @@ df = pd.read_csv(os.path.join(BASE_DIR, 'Crop Yeild Data.csv'))
 print(f"Original shape: {df.shape}")
 print(f"Columns: {list(df.columns)}")
 
-# Drop 'Production' column â€” the target Yield = Production / Area
+# Drop 'Production' column - the target Yield = Production / Area
 # Keeping it would let the model cheat by learning the formula
 df.drop(columns=['Production'], inplace=True)
-print("âœ“ Dropped 'Production' column (data leakage prevention)")
+print("[OK] Dropped 'Production' column (data leakage prevention)")
 
 # Strip whitespace from string columns
 for col in df.select_dtypes(include='object').columns:
     df[col] = df[col].str.strip()
-print("âœ“ Stripped whitespace from categorical columns")
+print("[OK] Stripped whitespace from categorical columns")
 
 # Check for and drop duplicates
 dup_count = df.duplicated().sum()
 df.drop_duplicates(inplace=True)
-print(f"âœ“ Removed {dup_count} duplicate rows")
+print(f"[OK] Removed {dup_count} duplicate rows")
 
 # Check for nulls
 null_counts = df.isnull().sum()
 if null_counts.sum() > 0:
     print(f"  Null values found:\n{null_counts[null_counts > 0]}")
     df.dropna(inplace=True)
-    print("âœ“ Dropped rows with null values")
+    print("[OK] Dropped rows with null values")
 else:
-    print("âœ“ No null values found")
+    print("[OK] No null values found")
 
 # Remove outliers in Yield (beyond 3 standard deviations)
 mean_yield = df['Yield'].mean()
 std_yield = df['Yield'].std()
 before = len(df)
 df = df[(df['Yield'] >= mean_yield - 3 * std_yield) & (df['Yield'] <= mean_yield + 3 * std_yield)]
-print(f"âœ“ Removed {before - len(df)} yield outliers (3Ïƒ rule)")
+print(f"[OK] Removed {before - len(df)} yield outliers (3-sigma rule)")
 
 print(f"Cleaned shape: {df.shape}")
 print()
 
-# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ------------------------------------------------------------
 # 2. EXPLORATORY DATA ANALYSIS
-# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ------------------------------------------------------------
 print("=" * 60)
 print("STEP 2: Exploratory Data Analysis")
 print("=" * 60)
@@ -97,7 +97,7 @@ ax.set_ylabel('Frequency')
 plt.tight_layout()
 plt.savefig(os.path.join(EDA_DIR, 'yield_distribution.png'), dpi=150)
 plt.close()
-print("âœ“ Saved yield_distribution.png")
+print("[OK] Saved yield_distribution.png")
 
 # 2b. Top 15 crops by average yield
 fig, ax = plt.subplots(figsize=(12, 6))
@@ -108,7 +108,7 @@ ax.set_xlabel('Average Yield')
 plt.tight_layout()
 plt.savefig(os.path.join(EDA_DIR, 'top_crops_yield.png'), dpi=150)
 plt.close()
-print("âœ“ Saved top_crops_yield.png")
+print("[OK] Saved top_crops_yield.png")
 
 # 2c. Season-wise yield
 fig, ax = plt.subplots(figsize=(10, 5))
@@ -121,7 +121,7 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 plt.savefig(os.path.join(EDA_DIR, 'season_yield.png'), dpi=150)
 plt.close()
-print("âœ“ Saved season_yield.png")
+print("[OK] Saved season_yield.png")
 
 # 2d. Correlation heatmap (numeric columns)
 fig, ax = plt.subplots(figsize=(10, 8))
@@ -132,7 +132,7 @@ ax.set_title('Correlation Heatmap', fontsize=14, fontweight='bold')
 plt.tight_layout()
 plt.savefig(os.path.join(EDA_DIR, 'correlation_heatmap.png'), dpi=150)
 plt.close()
-print("âœ“ Saved correlation_heatmap.png")
+print("[OK] Saved correlation_heatmap.png")
 
 # 2e. State-wise average yield (top 15)
 fig, ax = plt.subplots(figsize=(12, 6))
@@ -143,7 +143,7 @@ ax.set_xlabel('Average Yield')
 plt.tight_layout()
 plt.savefig(os.path.join(EDA_DIR, 'state_yield.png'), dpi=150)
 plt.close()
-print("âœ“ Saved state_yield.png")
+print("[OK] Saved state_yield.png")
 
 # 2f. Yield vs key features scatter
 fig, axes = plt.subplots(2, 2, figsize=(14, 10))
@@ -158,7 +158,7 @@ plt.suptitle('Yield vs Key Features', fontsize=14, fontweight='bold', y=1.01)
 plt.tight_layout()
 plt.savefig(os.path.join(EDA_DIR, 'yield_vs_features.png'), dpi=150)
 plt.close()
-print("âœ“ Saved yield_vs_features.png")
+print("[OK] Saved yield_vs_features.png")
 
 # 2g. Yearly trend
 fig, ax = plt.subplots(figsize=(12, 5))
@@ -171,13 +171,13 @@ ax.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig(os.path.join(EDA_DIR, 'yearly_trend.png'), dpi=150)
 plt.close()
-print("âœ“ Saved yearly_trend.png")
+print("[OK] Saved yearly_trend.png")
 
 print()
 
-# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ------------------------------------------------------------
 # 3. FEATURE ENGINEERING & PREPROCESSING
-# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ------------------------------------------------------------
 print("=" * 60)
 print("STEP 3: Feature Engineering & Preprocessing")
 print("=" * 60)
@@ -190,11 +190,11 @@ for col in categorical_cols:
     le = LabelEncoder()
     df[col] = le.fit_transform(df[col])
     label_encoders[col] = le
-    print(f"âœ“ Label-encoded '{col}' ({len(le.classes_)} classes)")
+    print(f"[OK] Label-encoded '{col}' ({len(le.classes_)} classes)")
 
 # Save label encoders
 joblib.dump(label_encoders, os.path.join(MODEL_DIR, 'label_encoders.pkl'))
-print("âœ“ Saved label encoders")
+print("[OK] Saved label encoders")
 
 # Save the lists of unique values for the frontend dropdowns
 dropdown_data = {}
@@ -202,7 +202,7 @@ for col in categorical_cols:
     dropdown_data[col] = list(label_encoders[col].classes_)
 with open(os.path.join(MODEL_DIR, 'dropdown_data.json'), 'w') as f:
     json.dump(dropdown_data, f)
-print("âœ“ Saved dropdown data for frontend")
+print("[OK] Saved dropdown data for frontend")
 
 # Features and target
 feature_cols = ['Crop', 'Crop_Year', 'Season', 'State', 'Area',
@@ -219,21 +219,21 @@ print(f"X shape: {X.shape}, y shape: {y.shape}")
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 joblib.dump(scaler, os.path.join(MODEL_DIR, 'scaler.pkl'))
-print("âœ“ Fitted and saved StandardScaler")
+print("[OK] Fitted and saved StandardScaler")
 
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(
     X_scaled, y, test_size=0.2, random_state=42
 )
-print(f"âœ“ Train/Test split: {X_train.shape[0]} / {X_test.shape[0]}")
+print(f"[OK] Train/Test split: {X_train.shape[0]} / {X_test.shape[0]}")
 print()
 
 # Save feature columns for inference
 joblib.dump(feature_cols, os.path.join(MODEL_DIR, 'feature_cols.pkl'))
 
-# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ------------------------------------------------------------
 # 4. MODEL TRAINING & COMPARISON
-# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ------------------------------------------------------------
 print("=" * 60)
 print("STEP 4: Training & Comparing Models")
 print("=" * 60)
@@ -266,7 +266,7 @@ models = {
 results = {}
 
 for name, model in models.items():
-    print(f"\nðŸ”„ Training {name}...")
+    print(f"\n[>>] Training {name}...")
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
 
@@ -280,35 +280,35 @@ for name, model in models.items():
         'MAE': round(mae, 4),
         'model': model
     }
-    print(f"  âœ… {name}  â†’  RÂ²: {r2:.4f} | RMSE: {rmse:.4f} | MAE: {mae:.4f}")
+    print(f"  [OK] {name} -> R2: {r2:.4f} | RMSE: {rmse:.4f} | MAE: {mae:.4f}")
 
-# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ------------------------------------------------------------
 # 5. BEST MODEL SELECTION
-# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ------------------------------------------------------------
 print("\n" + "=" * 60)
 print("STEP 5: Best Model Selection")
 print("=" * 60)
 
-# Choose the model with the highest RÂ² score
+# Choose the model with the highest R2 score
 best_name = max(results, key=lambda k: results[k]['R2_Score'])
 best_model = results[best_name]['model']
 
-print(f"\nðŸ† Best Model: {best_name}")
-print(f"   RÂ² Score : {results[best_name]['R2_Score']}")
+print(f"\n[BEST] Best Model: {best_name}")
+print(f"   R2 Score : {results[best_name]['R2_Score']}")
 print(f"   RMSE     : {results[best_name]['RMSE']}")
 print(f"   MAE      : {results[best_name]['MAE']}")
 
 # Save the best model
 joblib.dump(best_model, os.path.join(MODEL_DIR, 'best_model.pkl'))
 joblib.dump(best_name, os.path.join(MODEL_DIR, 'best_model_name.pkl'))
-print(f"âœ“ Saved best model ({best_name}) to models/best_model.pkl")
+print(f"[OK] Saved best model ({best_name}) to models/best_model.pkl")
 
 # Save comparison results (without the model objects)
 comparison = {k: {kk: vv for kk, vv in v.items() if kk != 'model'} for k, v in results.items()}
 comparison['best_model'] = best_name
 with open(os.path.join(MODEL_DIR, 'model_comparison.json'), 'w') as f:
     json.dump(comparison, f, indent=2)
-print("âœ“ Saved model comparison to models/model_comparison.json")
+print("[OK] Saved model comparison to models/model_comparison.json")
 
 # 5b. Model comparison bar chart
 fig, axes = plt.subplots(1, 3, figsize=(16, 5))
@@ -329,9 +329,8 @@ plt.suptitle('Model Comparison', fontsize=15, fontweight='bold')
 plt.tight_layout()
 plt.savefig(os.path.join(EDA_DIR, 'model_comparison.png'), dpi=150)
 plt.close()
-print("âœ“ Saved model_comparison.png")
+print("[OK] Saved model_comparison.png")
 
 print("\n" + "=" * 60)
-print("âœ… TRAINING PIPELINE COMPLETE")
+print("[OK] TRAINING PIPELINE COMPLETE")
 print("=" * 60)
-
